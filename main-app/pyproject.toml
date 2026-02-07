@@ -1,0 +1,61 @@
+[project]
+name = "main-app"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Cutneckk",email = "cutneckk@yandex.ru"}
+]
+readme = "README.md"
+requires-python = ">=3.13,<4.0"
+dependencies = [
+    "typer (>=0.21.1,<0.22.0)",
+    "pydantic-settings (>=2.12.0,<3.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "main_app", from = "src"}, {include = "tests"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "ruff (>=0.14.14,<0.15.0)",
+    "black (>=26.1.0,<27.0.0)",
+    "mypy (>=1.19.1,<2.0.0)",
+    "pytest (>=9.0.2,<10.0.0)",
+    "pytest-cov (>=7.0.0,<8.0.0)",
+    "bandit (>=1.9.3,<2.0.0)",
+    "pip-audit (>=2.10.0,<3.0.0)"
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["src", "tests"]
+lint.select = ["E","F","W","I","UP","B","C4","PIE","SIM","PT","PL","Q","RUF"]
+lint.ignore = ["E501"]
+lint.unfixable = ["F401"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["acme_app"]
+combine-as-imports = true
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+
+
+[tool.mypy]
+python_version = "3.12"
+plugins = []
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+exclude = ["build/", "dist/"]
+mypy_path = ["src"]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
