@@ -128,3 +128,21 @@ class OrderInfo:
             'Items': items,
             'Total Price': total_price
         }
+
+
+if __name__ == '__main__':
+    user = User('Max', 'qwe@mail.ru')
+    product = Product('PC', 1000)
+    product2 = Product('PC2', 2000)
+
+    cart = ShoppingCart()
+    cart_modifier = CartModifier(cart)
+    cart_modifier.set_product(product, 2)
+    cart_modifier.set_product(product2, 1)
+
+    calculator = PriceCalculator()
+    cart_pricing = CartPricing(cart, calculator)
+
+    order = Order(user, cart, cart_pricing)
+    order_info = OrderInfo(order)
+    print(order_info.get_order_info())
