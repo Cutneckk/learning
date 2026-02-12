@@ -1,14 +1,20 @@
 import pytest
 from main_app.app import User, Product, ShoppingCart, CartModifier, PriceCalculator, CartPricing, Order, OrderInfo
+from main_app.tools import EmailValidator, QuantityValidator
+
 
 @pytest.fixture
 def setup_order():
-    user = User('Max', 'qwe@mail.ru')
+    email_validator = EmailValidator()
+    quantity_validator = QuantityValidator()
+
+    email = email_validator.validate('qwe@mail.ru')
+    user = User('Max', email)
     product = Product('PC', 1000)
     product2 = Product('PC2', 2000)
 
     cart = ShoppingCart()
-    cart_modifier = CartModifier(cart)
+    cart_modifier = CartModifier(cart, quantity_validator)
     cart_modifier.set_product(product, 2)
     cart_modifier.set_product(product2, 1)
 

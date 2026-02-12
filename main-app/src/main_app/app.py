@@ -1,7 +1,6 @@
-import re
 from abc import ABC, abstractmethod
 from typing import List, Tuple, Dict
-
+from main_app.tools import EmailValidator, QuantityValidator
 
 class User:
     """класс пользователя"""
@@ -12,17 +11,6 @@ class User:
 
     def get_data(self) -> Dict[str, str]:
         return {'name': self._name, 'email': str(self._email)}
-
-
-class EmailValidator:
-    """валидация email пользователя"""
-
-    @staticmethod
-    def validate(email: str) -> str:
-        pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-        if re.match(pattern, email):
-            return email
-        raise ValueError('Invalid email')
 
 
 class Product:
@@ -74,20 +62,14 @@ class CartReader:
 
 
 class CartModifier:
-    def __init__(self, cart: ShoppingCart):
+    def __init__(self, cart: ShoppingCart, qt_validator: QuantityValidator):
         self._cart = cart
+        self._qt_validator = qt_validator # агрегация
 
     def set_product(self, product: Product, quantity: int) -> str:
-        validated_quantity = self._validate_quantity(quantity)
+        validated_quantity = self._qt_validator.validate(quantity)
         self._cart.items.append((product, validated_quantity))
         return 'Product added'
-
-    @staticmethod
-    def _validate_quantity(quantity: int) -> int:
-        """валидация количества товара"""
-        if quantity <= 0:
-            raise ValueError('quantity must be greater than 0')
-        return quantity
 
 
 class CartPricing:
@@ -131,12 +113,16 @@ class OrderInfo:
 
 
 if __name__ == '__main__':
-    user = User('Max', 'qwe@mail.ru')
+    email_validator = EmailValidator()
+    quantity_validator = QuantityValidator()
+
+    email = email_validator.validate('qwe@mail.ru')
+    user = User('Max', email)
     product = Product('PC', 1000)
     product2 = Product('PC2', 2000)
 
     cart = ShoppingCart()
-    cart_modifier = CartModifier(cart)
+    cart_modifier = CartModifier(cart, quantity_validator)
     cart_modifier.set_product(product, 2)
     cart_modifier.set_product(product2, 1)
 
