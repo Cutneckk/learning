@@ -1,0 +1,40 @@
+[project]
+name = "main-app"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Cutneckk",email = "cutneckk@yandex.ru"}
+]
+readme = "README.md"
+requires-python = ">=3.13,<4.0"
+dependencies = [
+    "typer (>=0.24.0,<0.25.0)",
+    "pydantic-settings (>=2.13.0,<3.0.0)"
+]
+
+[tool.poetry]
+name = "taskkit"
+version = "0.1.0"
+packages = [
+    { include = "taskkit", from = "src" }
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "ruff (>=0.15.1,<0.16.0)",
+    "black (>=26.1.0,<27.0.0)",
+    "mypy (>=1.19.1,<2.0.0)",
+    "pytest (>=9.0.2,<10.0.0)",
+    "pytest-cov (>=7.0.0,<8.0.0)",
+    "bandit (>=1.9.3,<2.0.0)",
+    "pip-audit (>=2.10.0,<3.0.0)",
+    "pre-commit (>=4.5.1,<5.0.0)"
+]
