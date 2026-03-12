@@ -3,6 +3,7 @@ __pycache__/
 *$py.class
 *.so
 *.pyc
+*./migrations/
 
 .venv/
 venv/
