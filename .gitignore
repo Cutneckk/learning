@@ -3,7 +3,7 @@ __pycache__/
 *$py.class
 *.so
 *.pyc
-**/__init__.py
+
 
 .venv/
 venv/
@@ -30,3 +30,5 @@ desktop.ini
 *.log
 *.tmp
 *.temp
+
+__init__.py
